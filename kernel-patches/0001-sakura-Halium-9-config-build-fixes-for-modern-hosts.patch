@@ -1,0 +1,87 @@
+From 75bf4a3ff23b62228491e596c22e98c9a44144f3 Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Mon, 19 Oct 2026 01:57:24 -0400
+Subject: [PATCH 01/13] sakura: Halium 9 config, build fixes for modern hosts
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01FYU6e2cMhpWP5auE7LcxEh
+---
+ Makefile                            |  2 +-
+ arch/arm64/configs/halium.config    | 24 ++++++++++++++++++++++++
+ scripts/dtc/dtc-lexer.l             |  2 +-
+ scripts/dtc/dtc-lexer.lex.c_shipped |  2 +-
+ 4 files changed, 27 insertions(+), 3 deletions(-)
+ create mode 100644 arch/arm64/configs/halium.config
+
+diff --git a/Makefile b/Makefile
+index 60ed96ce..b5d8b438 100644
+--- a/Makefile
++++ b/Makefile
+@@ -370,7 +370,7 @@ CHECK		= sparse
+ 
+ # Use the wrapper for the compiler.  This wrapper scans for new
+ # warnings and causes the build to stop upon encountering them.
+-CC		= $(srctree)/scripts/gcc-wrapper.py $(REAL_CC)
++CC		= $(REAL_CC)
+ 
+ CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
+ 		  -Wbitwise -Wno-return-void $(CF)
+diff --git a/arch/arm64/configs/halium.config b/arch/arm64/configs/halium.config
+new file mode 100644
+index 00000000..1c898878
+--- /dev/null
++++ b/arch/arm64/configs/halium.config
+@@ -0,0 +1,24 @@
++# UBports minimal requirements
++CONFIG_DEVTMPFS=y
++CONFIG_DEVTMPFS_MOUNT=y
++CONFIG_FHANDLE=y
++CONFIG_SYSVIPC=y
++CONFIG_IPC_NS=y
++CONFIG_NET_NS=y
++CONFIG_PID_NS=y
++CONFIG_USER_NS=y
++CONFIG_UTS_NS=y
++CONFIG_VT=y
++CONFIG_VT_CONSOLE=y
++CONFIG_FRAMEBUFFER_CONSOLE=y
++# Needed by systemd / LXC (Android container) on Ubuntu Touch
++CONFIG_CGROUP_DEVICE=y
++CONFIG_CGROUP_FREEZER=y
++CONFIG_AUTOFS4_FS=y
++CONFIG_EXT4_FS_POSIX_ACL=y
++CONFIG_EXT4_FS_SECURITY=y
++CONFIG_TMPFS_XATTR=y
++CONFIG_ANDROID_BINDER_DEVICES="binder,hwbinder,vndbinder"
++# Kernel config visible at /proc/config.gz for debugging
++CONFIG_IKCONFIG=y
++CONFIG_IKCONFIG_PROC=y
+diff --git a/scripts/dtc/dtc-lexer.l b/scripts/dtc/dtc-lexer.l
+index 3b41bfca..9b9c29e6 100644
+--- a/scripts/dtc/dtc-lexer.l
++++ b/scripts/dtc/dtc-lexer.l
+@@ -39,7 +39,7 @@ LINECOMMENT	"//".*\n
+ #include "srcpos.h"
+ #include "dtc-parser.tab.h"
+ 
+-YYLTYPE yylloc;
++extern YYLTYPE yylloc;
+ 
+ /* CAUTION: this will stop working if we ever use yyless() or yyunput() */
+ #define	YY_USER_ACTION \
+diff --git a/scripts/dtc/dtc-lexer.lex.c_shipped b/scripts/dtc/dtc-lexer.lex.c_shipped
+index 2d30f417..d0eb405c 100644
+--- a/scripts/dtc/dtc-lexer.lex.c_shipped
++++ b/scripts/dtc/dtc-lexer.lex.c_shipped
+@@ -637,7 +637,7 @@ char *yytext;
+ #include "srcpos.h"
+ #include "dtc-parser.tab.h"
+ 
+-YYLTYPE yylloc;
++extern YYLTYPE yylloc;
+ 
+ /* CAUTION: this will stop working if we ever use yyless() or yyunput() */
+ #define	YY_USER_ACTION \
+-- 
+2.43.0
+

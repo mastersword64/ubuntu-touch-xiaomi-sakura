@@ -1,0 +1,30 @@
+deviceinfo_name="Redmi 6 Pro"
+deviceinfo_manufacturer="Xiaomi"
+deviceinfo_codename="sakura"
+deviceinfo_arch="aarch64"
+
+# Local kernel repo prepared by setup-sakura-port.sh (Xiaomi sakura-p-oss + Halium patch)
+deviceinfo_kernel_source="set-by-build.sh"
+deviceinfo_kernel_source_branch="halium-9"
+deviceinfo_kernel_defconfig="sakura-perf_defconfig halium.config"
+deviceinfo_kernel_image_name="Image.gz-dtb"
+
+# Stock cmdline from the sakura Android 9 device tree, plus what Ubuntu Touch needs
+deviceinfo_kernel_cmdline="console=tty0 androidboot.hardware=qcom msm_rtb.filter=0x237 ehci-hcd.park=3 lpm_levels.sleep_disabled=1 androidboot.bootdevice=7824900.sdhci androidboot.selinux=permissive firmware_class.path=/vendor/firmware_mnt/image androidboot.usbconfigfs=true"
+
+deviceinfo_halium_version="9"
+# sakura launched with Android 8.1, so its bootloader uses boot header v0
+deviceinfo_bootimg_header_version="0"
+deviceinfo_bootimg_partition_size="67108864"
+
+deviceinfo_flash_pagesize="2048"
+deviceinfo_flash_offset_base="0x00000000"
+deviceinfo_flash_offset_kernel="0x80008000"
+deviceinfo_flash_offset_ramdisk="0x81000000"
+deviceinfo_flash_offset_second="0x80f00000"
+deviceinfo_flash_offset_tags="0x80000100"
+
+deviceinfo_use_overlaystore="true"
+deviceinfo_kernel_clang_compile="false"
+deviceinfo_bootimg_os_version="9.0.0"
+deviceinfo_bootimg_os_patch_level="2020-09"

@@ -1,0 +1,28 @@
+From d43af90bfbaee89352d9f2fcf1e9c927370859b2 Mon Sep 17 00:00:00 2001
+From: sakura-port <port@local>
+Date: Mon, 19 Oct 2026 13:56:36 -0400
+Subject: [PATCH 13/13] AppArmor + BT vhci
+
+---
+ arch/arm64/configs/halium.config | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/arch/arm64/configs/halium.config b/arch/arm64/configs/halium.config
+index 5ffd24ff..a912246c 100644
+--- a/arch/arm64/configs/halium.config
++++ b/arch/arm64/configs/halium.config
+@@ -40,3 +40,11 @@ CONFIG_QCOM_VOWIFI_11R=y
+ CONFIG_ENABLE_LINUX_REG=y
+ CONFIG_WLAN_OFFLOAD_PACKETS=y
+ CONFIG_QCOM_TDLS=y
++# Bluetooth: bluebinder needs /dev/vhci
++CONFIG_BT_HCIVHCI=y
++# AppArmor 3 (backported) - Ubuntu Touch app confinement; media-hub crashes without it
++CONFIG_SECURITY_APPARMOR=y
++CONFIG_SECURITY_APPARMOR_BOOTPARAM_VALUE=1
++# CONFIG_DEFAULT_SECURITY_SELINUX is not set
++CONFIG_DEFAULT_SECURITY_APPARMOR=y
++CONFIG_DEFAULT_SECURITY="apparmor"
+-- 
+2.43.0
+

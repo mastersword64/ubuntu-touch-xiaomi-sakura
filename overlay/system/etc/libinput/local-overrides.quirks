@@ -1,0 +1,3 @@
+[Goodix touchscreen no pen]
+MatchName=*goodix*
+AttrEventCode=-BTN_TOOL_PEN;-BTN_TOOL_RUBBER;-BTN_STYLUS;-BTN_STYLUS2;

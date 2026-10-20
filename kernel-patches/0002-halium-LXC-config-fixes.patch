@@ -1,0 +1,27 @@
+From 36bfb8ec86d013ef8612ef6964b401c6d7551687 Mon Sep 17 00:00:00 2001
+From: sakura-port <port@local>
+Date: Mon, 19 Oct 2026 04:12:50 -0400
+Subject: [PATCH 02/13] halium: LXC config fixes
+
+---
+ arch/arm64/configs/halium.config | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/arch/arm64/configs/halium.config b/arch/arm64/configs/halium.config
+index 1c898878..8ba62e13 100644
+--- a/arch/arm64/configs/halium.config
++++ b/arch/arm64/configs/halium.config
+@@ -22,3 +22,10 @@ CONFIG_ANDROID_BINDER_DEVICES="binder,hwbinder,vndbinder"
+ # Kernel config visible at /proc/config.gz for debugging
+ CONFIG_IKCONFIG=y
+ CONFIG_IKCONFIG_PROC=y
++# Android container (LXC) needs its own /dev/pts instance
++CONFIG_DEVPTS_MULTIPLE_INSTANCES=y
++# Other Halium/Ubuntu Touch recommendations
++CONFIG_POSIX_MQUEUE=y
++CONFIG_VETH=y
++CONFIG_NETFILTER_XT_TARGET_CHECKSUM=y
++# CONFIG_ANDROID_PARANOID_NETWORK is not set
+-- 
+2.43.0
+
